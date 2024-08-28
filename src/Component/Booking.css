@@ -1,0 +1,22 @@
+.booking__form {
+  background-color: #fffce6;
+  border-top: 2px solid #caa65a;
+}
+.montaga-regulars {
+  font-family: "Montaga", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.booking__form > h3 {
+  text-align: center;
+  padding: 4% 0% 0% 0%;
+}
+.text_field {
+  padding-bottom: 25px;
+}
+@media (max-width: 760px) {
+  .booking__form {
+    padding-top: 40px;
+    padding-bottom: 50px;
+  }
+}

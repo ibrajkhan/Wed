@@ -1,0 +1,133 @@
+* {
+  /* font-family: Arial, Helvetica, sans-serif; */
+  padding: 0;
+  margin: 0;
+  /* background-color: #fffce6; */
+}
+
+.bannerbox {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fffce6;
+}
+.imn {
+  background-color: #fffce6;
+}
+#iternary {
+  background-color: #fffce6;
+}
+.iternary {
+  padding: 4% 2%;
+}
+h4 {
+  color: #2b1105;
+}
+.montaga-regular {
+  font-family: "Montaga", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #2b1105;
+}
+
+.center__items {
+  padding-top: 8%;
+  display: flex;
+}
+.centerIne {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.timeing > h4 {
+  color: #c6754d;
+}
+.timeing {
+  margin-right: 70px;
+}
+
+.iternary > h3 {
+  text-align: center;
+  color: #2b1105;
+  font-size: 40px;
+  font-family: "Montaga";
+  font-weight: 400;
+  font-style: normal;
+}
+.date {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  cursor: pointer;
+}
+.map {
+  background-color: #fffce6;
+  padding: 2% 2%;
+}
+.hotel_map {
+  width: 100%;
+  height: 300px;
+}
+.map_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+p {
+  font-family: "Montaga";
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  margin-top: 30px;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.booking_button {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+@media (max-width: 760px) {
+  .iternary > h3 {
+    font-size: 21px;
+  }
+  p {
+    font-size: 10px;
+    margin-top: 20px;
+  }
+  .center__items {
+    width: 100%;
+    padding-top: 3%;
+  }
+  h4 {
+    font-size: 12px;
+  }
+  .timeing {
+    margin-right: 10px;
+  }
+  .date {
+    padding: 0px 10px;
+  }
+  .hotel_map {
+    width: 100%;
+    height: 200;
+  }
+  .help {
+    padding: 20px 0px 0px 0px;
+    font-size: 22px;
+    text-align: center;
+  }
+  .booking_button {
+    margin-top: 20px;
+  }
+  .map_text {
+    padding-bottom: 20px;
+  }
+}

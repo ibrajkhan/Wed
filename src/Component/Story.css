@@ -1,0 +1,51 @@
+.story_background {
+  background-color: #fffce6;
+
+  padding-bottom: 10vh;
+}
+.story_inn {
+  text-align: center;
+  padding-top: 5vh;
+  padding-bottom: 8vh;
+  font-family: "Montaga", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #caa65a;
+}
+
+.ki {
+  color: #c6754d;
+  /* font-size: 25px; */
+}
+.dis {
+  display: none;
+}
+.diss {
+  display: block;
+}
+.ka {
+  color: #2b1105;
+  margin-top: 15px;
+  /* font-size: 30px; */
+}
+.para > p {
+  font-family: "Montaga", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #caa65a;
+}
+.imgg {
+  margin-top: 4vh;
+}
+.img_story {
+  width: 400px;
+}
+
+@media (max-width: 760px) {
+  .dis {
+    display: block;
+  }
+  .diss {
+    display: none;
+  }
+}
