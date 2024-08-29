@@ -51,6 +51,12 @@ const BookingFlight = () => {
       .notOneOf(["Select from list"], "Please select Departure Flight Options"),
   });
 
+  const allowedEmails = [
+    "ibraj.grd@gmail.com",
+    "ibraj.senocare@gmail.com",
+    "ibrajkhan.grd@gmail.com",
+  ];
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -64,9 +70,40 @@ const BookingFlight = () => {
       DepartureFlightOptions: "",
     },
     validationSchema: schema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       console.log(values);
+
+      if (!allowedEmails.includes(values.email)) {
+        MySwal.fire({
+          icon: "error",
+          title: "Not Allowed",
+          text: "You are not allowed to fill this form.",
+        });
+        return;
+      }
       setLoading(true);
+
+      // Fetch data from the Google Sheet to check if the email has already been submitted
+      const response = await fetch(
+        import.meta.env.VITE_BOOKING_Flight_REQUESTDB
+      );
+      const data = await response.json();
+
+      const emailAlreadySubmitted = data.some(
+        (entry) => entry.Email === values.email
+      );
+
+      if (emailAlreadySubmitted) {
+        MySwal.fire({
+          icon: "warning",
+          title: "Already Submitted",
+          text: "You have already submitted the form.",
+        });
+        setLoading(false);
+        return;
+      }
+
+      // setLoading(true);
       const googleSheetData = {
         FirstName: values.firstName,
         LastName: values.lastName,

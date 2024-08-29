@@ -34,6 +34,11 @@ const Rsvp = () => {
       .required("Number of Guests is required")
       .notOneOf(["Select from list"], "Please select a valid number of guests"),
   });
+  const allowedEmails = [
+    "ibraj.grd@gmail.com",
+    "ibraj.senocare@gmail.com",
+    "ibrajkhan.grd@gmail.com",
+  ];
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -42,20 +47,133 @@ const Rsvp = () => {
       numberOfGuests: "",
     },
     validationSchema: schema,
-    onSubmit: (values, { resetForm }) => {
+    // onSubmit: (values, { resetForm }) => {
+    //   console.log(values);
+    //   setLoading(true);
+    //   const googleSheetData = {
+    //     FirstName: values.firstName,
+    //     LastName: values.lastName,
+    //     Email: values.email,
+    //     NumberOfGuests: values.numberOfGuests,
+    //   };
+    //   // MySwal.fire({
+    //   //   icon: "success",
+    //   //   title: "You are welcome",
+    //   // });
+    //   // setLoading(false);
+
+    //   emailjs
+    //     .sendForm(
+    //       import.meta.env.VITE_SERVICE_ID,
+    //       import.meta.env.VITE_HOTEL_TEMPLATE,
+    //       formRef.current,
+    //       import.meta.env.VITE_PUBLIC_KEY
+    //     )
+    //     .then((res) => {
+    //       console.log("Email sent successfully:", res);
+    //       // Proceed to submit to Google Sheets
+    //       return fetch(import.meta.env.VITE_BOOKING_REQUESTDB, {
+    //         method: "POST",
+    //         headers: {
+    //           Accept: "application/json",
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           data: [googleSheetData],
+    //         }),
+    //       });
+    //     })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log("Data submitted to sucessful:", data);
+    //       MySwal.fire({
+    //         icon: "success",
+    //         title: "You are welcome",
+    //       });
+    //       setTimeout(() => {
+    //         setLoading(false);
+    //         resetForm();
+    //       }, 1000);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error:", error);
+    //       MySwal.fire({
+    //         icon: "error",
+    //         title: "Oops...",
+    //         text: "Pls Enter correct Email id or Try after some time",
+    //       });
+    //       setTimeout(() => {
+    //         setLoading(false);
+    //         resetForm();
+    //       }, 2000);
+    //     });
+
+    //   //   emailjs
+    //   //     .sendForm(
+    //   //       import.meta.env.VITE_SERVICE_ID,
+    //   //       import.meta.env.VITE_TEMPLATE,
+    //   //       formRef.current,
+    //   //       import.meta.env.VITE_PUBLIC_KEY
+    //   //     )
+    //   //     .then((res) => {
+    //   //       MySwal.fire({
+    //   //         icon: "success",
+    //   //         title: "Form Submitted Sucessfully",
+    //   //         time: 1000,
+    //   //       });
+    //   //       console.log(res);
+    //   //     })
+    //   //     .catch((err) => {
+    //   //       MySwal.fire({
+    //   //         icon: "error",
+    //   //         title: "Failed to Submit",
+    //   //         time: 1000,
+    //   //       });
+    //   //       console.log(err, "hello");
+    //   //     });
+    //   //   setTimeout(() => {
+    //   //     setLoading(false);
+    //   //     resetForm();
+    //   //   }, 1000 * 2);
+    // },
+    onSubmit: async (values, { resetForm }) => {
       console.log(values);
+
+      // Check if the email is in the allowed list
+      if (!allowedEmails.includes(values.email)) {
+        MySwal.fire({
+          icon: "error",
+          title: "Not Allowed",
+          text: "You are not allowed to fill this form.",
+        });
+        return;
+      }
       setLoading(true);
+      // Fetch data from the Google Sheet to check if the email has already been submitted
+      const response = await fetch(import.meta.env.VITE_BOOKING_REQUESTDB);
+      const data = await response.json();
+
+      const emailAlreadySubmitted = data.some(
+        (entry) => entry.Email === values.email
+      );
+
+      if (emailAlreadySubmitted) {
+        MySwal.fire({
+          icon: "warning",
+          title: "Already Submitted",
+          text: "You have already submitted the form.",
+        });
+        setLoading(false);
+        return;
+      }
+
+      // setLoading(true);
       const googleSheetData = {
         FirstName: values.firstName,
         LastName: values.lastName,
         Email: values.email,
         NumberOfGuests: values.numberOfGuests,
       };
-      // MySwal.fire({
-      //   icon: "success",
-      //   title: "You are welcome",
-      // });
-      // setLoading(false);
 
       emailjs
         .sendForm(
@@ -80,7 +198,7 @@ const Rsvp = () => {
         })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Data submitted to sucessful:", data);
+          console.log("Data submitted to Google Sheets successfully:", data);
           MySwal.fire({
             icon: "success",
             title: "You are welcome",
@@ -95,41 +213,13 @@ const Rsvp = () => {
           MySwal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Pls Enter correct Email id or Try after some time",
+            text: "Please enter a correct Email ID or try again later.",
           });
           setTimeout(() => {
             setLoading(false);
             resetForm();
           }, 2000);
         });
-
-      //   emailjs
-      //     .sendForm(
-      //       import.meta.env.VITE_SERVICE_ID,
-      //       import.meta.env.VITE_TEMPLATE,
-      //       formRef.current,
-      //       import.meta.env.VITE_PUBLIC_KEY
-      //     )
-      //     .then((res) => {
-      //       MySwal.fire({
-      //         icon: "success",
-      //         title: "Form Submitted Sucessfully",
-      //         time: 1000,
-      //       });
-      //       console.log(res);
-      //     })
-      //     .catch((err) => {
-      //       MySwal.fire({
-      //         icon: "error",
-      //         title: "Failed to Submit",
-      //         time: 1000,
-      //       });
-      //       console.log(err, "hello");
-      //     });
-      //   setTimeout(() => {
-      //     setLoading(false);
-      //     resetForm();
-      //   }, 1000 * 2);
     },
   });
 
@@ -283,6 +373,23 @@ const Rsvp = () => {
           </Button>
         </div>
       </Form>
+      {/* Whats App */}
+      {/* <a
+        href="https://wa.me/9665080749"
+        className="whatsapp-link"
+        target="_blank">
+        Chat with us on WhatsApp
+      </a> */}
+
+      {/* Live Streaming */}
+
+      {/* <iframe
+        width="100%"
+        height="500"
+        src="YOUR_LIVE_STREAM_LINK"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Live Stream"></iframe> */}
     </div>
   );
 };
